@@ -1,0 +1,43 @@
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: greencheck-db
+    environment:
+      POSTGRES_DB: greencheck
+      POSTGRES_USER: greencheck
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  backend:
+    build:
+      context: ./backend
+    container_name: greencheck-backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+
+  ai-service:
+    build:
+      context: ./ai-service
+    container_name: greencheck-ai
+    ports:
+      - "8001:8001"
+
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: greencheck-frontend
+    ports:
+      - "3000:3000"
+
+
+volumes:
+  postgres_data:
