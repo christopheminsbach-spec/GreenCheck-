@@ -1,0 +1,24 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# TensorFlow / modèles lourds
+*.h5
+*.keras
+*.pb
+
+# Node
+node_modules/
+
+# Environment
+.env
+
+# Django
+*.sqlite3
+media/
+staticfiles/
+
+# Mac
+.DS_Store
