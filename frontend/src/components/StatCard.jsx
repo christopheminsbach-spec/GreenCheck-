@@ -1,26 +1,58 @@
-function StatCard({icon, title, value}) {
+function StatCard({
+    icon,
+    title,
+    value,
+    color
+}) {
+
 
     return (
 
-        <div className="bg-white rounded-xl shadow p-6">
+        <div
+            className="
+            bg-white
+            rounded-3xl
+            shadow-lg
+            p-6
+            hover:-translate-y-1
+            transition
+            "
+        >
 
-            <div className="text-3xl">
+            <div
+                className={`
+                text-4xl
+                ${color}
+                `}
+            >
                 {icon}
             </div>
 
 
-            <h3 className="text-gray-500 mt-3">
+            <p
+                className="
+                text-gray-500
+                mt-4
+                "
+            >
                 {title}
-            </h3>
-
-
-            <p className="text-3xl font-bold text-green-700">
-                {value}
             </p>
+
+
+            <h2
+                className="
+                text-4xl
+                font-bold
+                mt-2
+                "
+            >
+                {value}
+            </h2>
+
 
         </div>
 
-    );
+    )
 
 }
 

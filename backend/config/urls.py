@@ -34,7 +34,11 @@ urlpatterns = [
     path(
         "api/dashboard/",
         include("dashboard.urls")
-    )
+    ),
+    path(
+    "api/",
+    include("identification.urls")
+),
 
 
 ]
