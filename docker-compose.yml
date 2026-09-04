@@ -2,42 +2,93 @@ services:
 
   postgres:
     image: postgres:16
-    container_name: greencheck-db
+    container_name: greencheck-postgres
+
     environment:
       POSTGRES_DB: greencheck
       POSTGRES_USER: greencheck
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5433:5432"
+      POSTGRES_PASSWORD: greencheck_password
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+    ports:
+      - "5433:5432"
+
+    networks:
+      - greencheck-network
 
 
   backend:
     build:
       context: ./backend
+
     container_name: greencheck-backend
+
+    command:
+      python manage.py runserver 0.0.0.0:8000
+
+    volumes:
+      - ./backend:/app
+
     ports:
-      - "8000:8000"
+      - "8002:8000"
+
+    env_file:
+      - .env
+
     depends_on:
       - postgres
+
+    networks:
+      - greencheck-network
 
 
   ai-service:
     build:
       context: ./ai-service
+
     container_name: greencheck-ai
+
+    command:
+      uvicorn app.main:app --host 0.0.0.0 --port 8001
+
+    volumes:
+      - ./ai-service:/app
+
     ports:
       - "8001:8001"
+
+    networks:
+      - greencheck-network
 
 
   frontend:
     build:
       context: ./frontend
+
     container_name: greencheck-frontend
+
     ports:
       - "3000:3000"
 
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+    depends_on:
+      - backend
+
+    networks:
+      - greencheck-network
+
+
 
 volumes:
+
   postgres_data:
+
+
+networks:
+
+  greencheck-network:

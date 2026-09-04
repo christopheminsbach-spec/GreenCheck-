@@ -1,7 +1,39 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File  # pyright: ignore[reportMissingImports]
 
-app = FastAPI()
+from app.predict import predict_image
+
+
+app = FastAPI(
+
+title="GreenCheck AI API",
+
+version="1.0"
+
+)
+
+
 
 @app.get("/")
 def home():
-    return {"message": "GreenCheck AI Service OK"}
+
+    return {
+
+        "status":
+        "GreenCheck AI running"
+
+    }
+
+
+
+@app.post("/predict")
+async def predict(
+
+    image:UploadFile = File(...)
+
+):
+
+
+    result = predict_image(image)
+
+
+    return result
